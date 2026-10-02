@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+<title>Dragon Sky - Stage Map + Opening</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+  <main id="game" aria-label="Dragon Sky 스테이지 맵">
+    <img class="world-bg" src="assets/bg_sky.png" alt="" draggable="false" />
+    <div class="sky-vignette"></div>
+
+    <!-- Stage select rider: the already-made side-view Kael+dragon flight animation -->
+    <div class="stage-rider" aria-hidden="true">
+      <img src="assets/stage_rider.webp" alt="">
+    </div>
+
+    <header class="topbar">
+      <div class="logo" aria-label="Dragon Sky">
+        <div class="logo-main">DRAGON SKY</div>
+        <div class="logo-sub">드래곤 스카이</div>
+      </div>
+      <section class="chapter-title">
+        <div class="chapter-main">챕터 1 · 침공의 하늘</div>
+        <div class="chapter-sub">무너진 하늘 아래, 다시 날아오르다.</div>
+      </section>
+      <div class="resources">
+        <div class="resource"><img src="assets/icon_energy.png" alt=""><span>120/120</span><b>＋</b></div>
+        <div class="resource"><img src="assets/icon_coin.png" alt=""><span>1,234,567</span><b>＋</b></div>
+        <div class="resource"><img src="assets/icon_gem.png" alt=""><span>12,850</span><b>＋</b></div>
+        <button class="icon-btn mail" title="우편"><img src="assets/icon_mail.png" alt="우편"></button>
+        <button class="icon-btn settings" id="settingsBtn" title="설정/전체화면"><img src="assets/icon_settings.png" alt="설정"></button>
+      </div>
+    </header>
+
+    <button class="chapter-select art-button" id="chapterBtn">
+      <img src="assets/btn_chapter.png" alt=""><span>챕터 선택</span>
+    </button>
+
+    <svg class="route" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
+      <defs><filter id="glow"><feGaussianBlur stdDeviation="3.3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <path d="M345,255 C395,270 425,355 485,360 S535,250 610,260 S665,355 750,365 S825,300 895,300" />
+      <circle cx="395" cy="295" r="6"/><circle cx="445" cy="347" r="6"/><circle cx="555" cy="313" r="6"/><circle cx="685" cy="333" r="6"/><circle cx="825" cy="334" r="6"/>
+    </svg>
+
+    <section class="stage-layer" id="stageLayer">
+      <button class="stage-node selected" data-stage="1-1" data-name="폐허의 관문" data-desc="침공 직후의 하늘. 기본 조작과 싱크 전투를 익힙니다." style="--x:35%;--y:39%;--floatDur:5.4s;--floatDelay:-1.1s">
+        <img src="assets/island_ruins.png" alt="1-1 폐허의 관문" />
+        <div class="stage-tag"><strong>1-1</strong><span class="stars">★★★</span></div>
+      </button>
+      <button class="stage-node" data-stage="1-2" data-name="바람의 잔해" data-desc="적 편대가 본격적으로 몰려옵니다. 후방 검기의 중요성이 커집니다." style="--x:49%;--y:58%;--floatDur:6.2s;--floatDelay:-3.4s">
+        <img src="assets/island_windmill.png" alt="1-2 바람의 잔해" />
+        <div class="stage-tag"><strong>1-2</strong><span class="stars">☆☆☆</span></div>
+      </button>
+      <button class="stage-node" data-stage="1-3" data-name="청빙 성채" data-desc="대형 기체가 등장하고 첫 특수 패턴을 경험합니다." style="--x:61%;--y:42%;--floatDur:5.8s;--floatDelay:-2.2s">
+        <img src="assets/island_castle.png" alt="1-3 청빙 성채" />
+        <div class="stage-tag"><strong>1-3</strong><span class="stars">☆☆☆</span></div>
+      </button>
+      <button class="stage-node" data-stage="1-4" data-name="공중 회랑" data-desc="침공군의 방어선을 돌파합니다. 보스 전 마지막 전초전입니다." style="--x:75%;--y:60%;--floatDur:6.6s;--floatDelay:-.7s">
+        <img src="assets/island_arch.png" alt="1-4 공중 회랑" />
+        <div class="stage-tag"><strong>1-4</strong><span class="stars">☆☆☆</span></div>
+      </button>
+      <button class="stage-node boss" data-stage="1-5" data-name="붉은 침공 거점" data-desc="챕터 1 보스. 외계 침공군의 지휘 기체와 조우합니다." style="--x:90%;--y:43%;--floatDur:7.6s;--floatDelay:-4.1s">
+        <img src="assets/island_boss.png" alt="1-5 보스" />
+        <div class="boss-mark">BOSS</div>
+        <div class="stage-tag"><strong>1-5</strong><span class="stars">☆☆☆</span></div>
+      </button>
+    </section>
+
+    <aside class="stage-info" id="stageInfo">
+      <div><small id="stageCode">STAGE 1-1</small><strong id="stageName">폐허의 관문</strong></div>
+      <p id="stageDesc">침공 직후의 하늘. 기본 조작과 싱크 전투를 익힙니다.</p>
+    </aside>
+
+    <nav class="bottom-nav" aria-label="메인 메뉴">
+      <button class="story-btn art-button" id="storyBtn"><img src="assets/btn_story.png" alt=""><span>스토리</span><i>!</i></button>
+      <div class="nav-center">
+        <button class="nav-item"><img src="assets/nav_shop.png" alt=""><span>상점</span><i>!</i></button>
+        <button class="nav-item"><img src="assets/nav_equip.png" alt=""><span>장비</span></button>
+        <button class="nav-item"><img src="assets/nav_dragon.png" alt=""><span>드래곤</span></button>
+        <button class="nav-item"><img src="assets/nav_character.png" alt=""><span>캐릭터</span></button>
+      </div>
+      <button class="sortie-btn art-button" id="sortieBtn"><img src="assets/btn_sortie.png" alt=""><span>출격</span></button>
+    </nav>
+
+    <div class="toast" id="toast" role="status"></div>
+    <div class="modal" id="modal" hidden>
+      <div class="modal-card">
+        <small id="modalCode">STAGE 1-1</small>
+        <h2 id="modalTitle">폐허의 관문</h2>
+        <p id="modalText">출격하시겠습니까?</p>
+        <div class="modal-actions"><button id="cancelBtn">취소</button><button id="confirmBtn">전투 시작</button></div>
+      </div>
+    </div>
+
+
+    <!-- 1-1 playable stage overlay -->
+    <section id="stageRunner" class="stage-runner" hidden aria-label="STAGE 1-1 전투">
+      <iframe id="stageFrame" title="Dragon Sky STAGE 1-1" allow="fullscreen; autoplay; gamepad"></iframe>
+      <div class="stage-runner-bar">
+        <div>
+          <small>STAGE 1-1</small>
+          <strong>폐허의 관문</strong>
+        </div>
+        <button id="forceExitStage" class="force-exit-stage" type="button">⏻ 스테이지 종료</button>
+      </div>
+    </section>
+
+    <!-- First-run opening: short full-screen video cuts + layered dialogue -->
+    <section id="opening" class="opening" hidden aria-label="Dragon Sky 오프닝">
+      <div class="opening-bg bg-a"></div>
+      <div class="opening-bg bg-b"></div>
+
+      <video id="cinemaVideo" class="cinema-video" playsinline preload="auto"></video>
+      <div class="cinema-bars"></div>
+
+      <div class="opening-shade"></div>
+      <div class="opening-flash"></div>
+      <div class="opening-title" id="openingTitle">
+        <small>DRAGON SKY</small>
+        <strong>침공의 하늘</strong>
+      </div>
+
+      <div class="speaker speaker-kael" id="speakerKael">
+        <img src="assets/kael.png" alt="카엘">
+      </div>
+      <div class="speaker speaker-silitra" id="speakerSilitra">
+        <img src="assets/silitra.png" alt="실리트라">
+      </div>
+
+      <button id="skipOpening" class="skip-opening">SKIP</button>
+      <div class="opening-caption" id="openingCaption">몇 년째, 승부는 끝나지 않았다.</div>
+      <div class="dialogue" id="dialogue" hidden>
+        <div class="speaker-name" id="speakerName">카엘</div>
+        <div class="dialogue-text" id="dialogueText"></div>
+        <div class="next-mark">▼</div>
+      </div>
+      <div class="opening-hint">화면을 탭하면 다음 장면 · SKIP으로 건너뛰기</div>
+    </section>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
