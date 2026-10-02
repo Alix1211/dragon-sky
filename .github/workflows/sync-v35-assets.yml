@@ -1,0 +1,50 @@
+name: Restore full Dragon Sky v3.5 assets
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sync-v35-assets.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download full v3.5 source archive
+        env:
+          SOURCE_URL: 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-bc44-8206-8b08-6c2ab3f8794a/raw?se=2026-10-02T12%3A36%3A36Z&sp=r&sv=2026-02-06&sr=b&scid=eeff58eb-e50d-59af-94d8-5b3f45acd821&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A31%3A01Z&ske=2026-10-03T02%3A31%3A01Z&sks=b&skv=2026-02-06&sig=hVZ/Ji00ksqi7mg4D3TLigH8hfOlbKJUa%2BWTO1MC27s%3D'
+        run: |
+          set -euo pipefail
+          curl -L --fail --retry 3 "$SOURCE_URL" -o /tmp/dragon-sky-v35.zip
+          test -s /tmp/dragon-sky-v35.zip
+          unzip -q /tmp/dragon-sky-v35.zip -d /tmp/dragon-sky-v35
+          test -f /tmp/dragon-sky-v35/dragon_sky_stage_map_v3_5_ui_fixed/index.html
+
+      - name: Restore current project tree
+        run: |
+          set -euo pipefail
+          mkdir -p current
+          rsync -a --delete /tmp/dragon-sky-v35/dragon_sky_stage_map_v3_5_ui_fixed/ current/
+          find current -type f | sort > /tmp/restored-files.txt
+          echo "Restored $(wc -l < /tmp/restored-files.txt) files"
+          du -sh current
+
+      - name: Commit restored assets
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add current
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Restore full Dragon Sky v3.5 source and assets"
+          git push
